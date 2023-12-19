@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 인터페이스 구현 / mapper:자바 객체와 메소드를 매핑(연결)의 의미 -->
+<mapper namespace="org.spring.mapper.BoardMapper">
+
+    <sql id="tableCols">
+        bno,title,content,writer,regdate,viewcnt
+    </sql>
+
+    <insert id="insert" parameterType="org.spring.domain.VO">
+        insert into tbl_table (title,content,writer) values (#{title},#{content},#{writer})
+    </insert>
+
+    <select id="selectAll" parameterType="org.spring.domain.VO" resultType="org.spring.domain.VO">
+        select <include refid="tableCols"/> from tbl_table
+    </select>
+    
+    <select id="maxBno" parameterType="org.spring.domain.VO" resultType="java.lang.Integer">
+        select max(bno) from tbl_table
+    </select>
+
+    <update id="update" parameterType="org.spring.domain.VO">
+       
+        update tbl_table
+        set title = #{title},
+            content = #{content},
+            writer = #{writer}
+        where bno = #{bno}
+        
+    </update>
+	
+	<update id="updateViewCnt" parameterType="org.spring.domain.VO">
+       
+        update tbl_table
+        set viewcnt = viewcnt + 1   
+        where bno = #{bno}
+        
+    </update>
+    
+    <delete id="delete" parameterType="int">
+        
+        delete from tbl_table
+        where bno = #{bno}
+        
+    </delete>
+
+</mapper>
+
+  
+  	<!--  public void insert(VO vo);
+	
+	public List<VO> selectAll();
+	public void updateViewCnt(int bno);
+	public int update(VO vo);
+	public int maxBno();
+	public int delete(int bno);-->
